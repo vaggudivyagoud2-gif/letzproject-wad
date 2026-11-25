@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PresentSir | AttendAlert</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <h2>PresentSir</h2>
+    <p>ATTENDALERT</p>
+
+    <button class="nav-link active" data-page="dashboard">Dashboard</button>
+    <button class="nav-link" data-page="attendance">Attendance</button>
+    <button class="nav-link" data-page="students">Students</button>
+    <button class="nav-link" data-page="alerts">Mentor Alerts</button>
+    <button class="nav-link" data-page="portal">Student Portal</button>
+  </aside>
+
+  <main class="main">
+6
+    <header class="topbar">
+      <button id="menuToggle">☰</button>
+      <h3>PresentSir Attendance Management</h3>
+      <span id="todayText"></span>
+    </header>
+
+    <!-- DASHBOARD -->
+
+    <section class="page active" id="dashboard">
+
+      <div class="page-title">
+        <h1>Good day, Admin ✦</h1>
+        <p>Manage your classroom attendance.</p>
+      </div>
+
+      <div class="stats">
+        <button class="stat stat-clickable"data-filter="total">
+          <h3>Total Students</h3>
+          <strong id="totalStudents">0</strong>
+          <small>click to view all students</small>
+        </button>
+
+        <button class="stat stat-clickable" data-filter="safe">
+          <h3>Safe Students</h3>
+          <strong id="safeCount">0</strong>
+          <small>click to view safe students</small>
+        </button>
+       
+        <button class="stat stat-clickable" data-filter="warning">
+          <h3>Warning</h3>
+          <strong id="warningCount">0</strong>
+          <small>click to view warning students</small>
+        </button>
+
+        <button class="stat stat-clickable" data-filter="critical">
+          <h3>Critical</h3>
+          <strong id="criticalCount">0</strong>
+          <small>click to view critical students</small>
+        </button>
+        </div>
+
+        <!--FILTERED STUDENT DETAILS-->
+
+        <div class="panel" id="dashboardFilteredStudents" hidden>
+           <div class="detail-heading">
+            <h2 id="detailTitle">All Students</h2>
+            <button class="btn primary" id="backToDashboard">
+              Back to Dashboard
+            </button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Roll Number</th>
+                  <th>Attendance</th>
+                  <th>Risk</th>
+                </tr>
+              </thead>
+
+              <tbody id="dashboardStudentRows"></tbody>
+            </table>
+          </div>
+
+
+        <div class="stat">
+          <h3>Total Students</h3>
+          <strong id="totalStudents">0</strong>
+        </div>
+
+        <div class="stat">
+          <h3>Safe Students</h3>
+          <strong id="safeCount">0</strong>
+        </div>
+
+        <div class="stat">
+          <h3>Warning</h3>
+          <strong id="warningCount">0</strong>
+        </div>
+
+        <div class="stat">
+          <h3>Critical</h3>
+          <strong id="criticalCount">0</strong>
+        </div>
+
+      </div>
+
+
+      <div class="panel">
+        <h2>Attendance Overview</h2>
+        <h1 id="overallRate">0%</h1>
+        <div class="bar-track">
+          <div class="bar-fill" id="overallBar"></div>
+        </div>
+        <p>Minimum attendance required: 75%</p>
+      </div>
+
+      <div class="panel">
+        <h2>Students Needing Attention</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Roll Number</th>
+                <th>Attendance</th>
+                <th>Risk</th>
+              </tr>
+            </thead>
+            <tbody id="dashboardRiskRows"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- STUDENTS -->
+
+    <section class="page" id="students">
+
+      <h1>Students</h1>
+      <p>Add and manage students.</p>
+
+      <button class="btn primary" id="showStudentForm">
+        + Add Student
+      </button>
+
+      <div class="panel" id="studentFormPanel" hidden>
+
+        <h2>Register a Student</h2>
+
+        <form id="studentForm">
+
+          <label>Student Name</label>
+          <input name="name" placeholder="Enter student name" required>
+
+          <label>Roll Number</label>
+          <input name="rollNo" placeholder="Enter roll number" required>
+
+          <label>Class / Section</label>
+          <input name="className" placeholder="Enter class" required>
+
+          <button class="btn primary">Save Student</button>
+
+          <button type="button" class="btn" id="cancelStudent">
+            Cancel
+          </button>
+
+        </form>
+
+      </div>
+
+      <div class="panel">
+        <h2>Class Roster</h2>
+
+        <input id="studentSearch" placeholder="Search students">
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Roll Number</th>
+                <th>Class</th>
+                <th>Attendance</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody id="studentRows"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ATTENDANCE -->
+
+    <section class="page" id="attendance">
+
+      <h1>Attendance Register</h1>
+      <p>Mark student attendance.</p>
+
+      <label>Select Date</label>
+      <input type="date" id="attendanceDate">
+
+      <div class="panel">
+
+        <input id="attendanceSearch" placeholder="Search students">
+
+        <button class="btn" id="markAllPresent">
+          Mark All Present
+        </button>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Roll Number</th>
+                <th>Class</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody id="attendanceRows"></tbody>
+          </table>
+        </div>
+
+        <p id="markedSummary">0 marked</p>
+
+        <button class="btn primary" id="saveAttendance">
+          Save Attendance
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- MENTOR ALERTS -->
+
+    <section class="page" id="alerts">
+
+      <h1>Mentor Alerts</h1>
+      <p>Identify students with low attendance.</p>
+
+      <div id="alertSummary" class="stats"></div>
+
+      <div class="panel">
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Attendance</th>
+                <th>Risk Level</th>
+                <th>Recovery Classes</th>
+                <th>Mentor Note</th>
+              </tr>
+            </thead>
+
+            <tbody id="alertRows"></tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- STUDENT PORTAL -->
+
+    <section class="page" id="portal">
+
+      <h1>Student Portal</h1>
+      <p>Check your attendance using your roll number.</p>
+
+      <div class="panel">
+
+        <form id="portalForm">
+
+          <input
+            id="portalRoll"
+            placeholder="Enter your roll number"
+            required
+          >
+
+          <button class="btn primary">
+            View Report
+          </button>
+
+        </form>
+
+        <div id="portalResult"></div>
+
+      </div>
+
+    </section>
+
+    <footer>
+      © 2026 PresentSir AttendAlert
+    </footer>
+
+  </main>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
